@@ -4,7 +4,7 @@ import Navigation from './nav'
 class App extends Component {
   render() {
     return (
-      <Navigation />
+      <div>Hi!</div>
     );
   }
 }
