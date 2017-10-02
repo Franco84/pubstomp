@@ -8,10 +8,12 @@ class Signup extends Component {
 
     return (
       <Grid>
-        <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
-          <p className="text-center">PubStomp Sign Up:</p>
-          <SignupForm />
-        </Col>
+        <Row>
+          <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
+            <p className="text-center">PubStomp Sign Up:</p>
+            <SignupForm history={this.props.history} />
+          </Col>
+        </Row>
       </Grid>
     );
   }

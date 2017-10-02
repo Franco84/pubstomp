@@ -26,14 +26,15 @@ class LoginForm extends Component {
   }
 
   onSubmit(values) {
-    this.props.history.push('/')
     this.props.login(values)
+    this.props.history.push('/')
   }
 
   render() {
-    const {handleSubmit, pristine, submitting} = this.props
+    const {handleSubmit, pristine, submitting, reset} = this.props
 
     return (
+      <div>
       <form>
         <Field
           placeholder=" E-mail"
@@ -49,6 +50,7 @@ class LoginForm extends Component {
         />
         <Button onClick={handleSubmit(this.onSubmit.bind(this))} disabled={pristine || submitting} type="submit" bsStyle="primary" bsSize="xsmall">Submit</Button>
       </form>
+    </div>
 
     );
   }
