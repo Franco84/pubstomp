@@ -26,8 +26,8 @@ class SignupForm extends Component {
   }
 
   onSubmit(values) {
-    this.props.history.push('/')
     this.props.signup(values)
+    this.props.history.push('/')
   }
 
   render() {
@@ -35,12 +35,6 @@ class SignupForm extends Component {
 
     return (
       <form>
-        <Field
-          placeholder=" Preferred name / gamertag"
-          name="name"
-          type="text"
-          component={this.renderField}
-        />
         <Field
           placeholder=" E-mail"
           name="email"

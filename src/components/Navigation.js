@@ -39,7 +39,7 @@ class Navigation extends Component {
           <Nav pullRight>
             <NavDropdown title="Login" className="no-border" id="basic-nav-dropdown" open={this.state.menuOpen} onToggle={val => this.dropdownToggle(val)}>
               <MenuItem onClick={() => this.menuItemClickedThatShouldntCloseDropdown()} className="default-cursor no-hover" key={4}>
-                <LoginForm />
+                <LoginForm history={this.props.history} />
               </MenuItem>
             </NavDropdown>
             <NavItem eventKey={5}><Link to="/signup" className="clean-link">Register</Link></NavItem>

@@ -2,7 +2,7 @@
 export default (state=[], action) => {
   switch (action.type) {
     case 'SIGNUP':
-      return action.payload.data.jwt
+      return action.payload
     case 'LOGIN':
       return action.payload
     case 'LOGOUT_USER':
