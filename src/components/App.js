@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Navigation from './nav'
 
 class App extends Component {
   render() {
     return (
-      <div>Hi!</div>
+      <div>Hi! <br />
+    </div>
     );
   }
 }
