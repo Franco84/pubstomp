@@ -51,3 +51,36 @@ box-shadow:none !important;
 .text-center {
   text-align: center;
 }
+
+/*-----SERVICE BOX-----*/
+.serviceBox{
+    text-align: center;
+    margin: 0 -15px;
+    padding: 50px 30px;
+    color: #000;
+}
+.serviceBox .service-icon{
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    font-size: 40px;
+    display: inline-block;
+    margin-bottom: 30px;
+    transition: all 0.5s ease 0s;
+}
+.serviceBox:hover .service-icon{
+    box-shadow: 0 0 0 15px orange;
+}
+.serviceBox .title{
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0 0 15px;
+}
+.serviceBox .description{
+    font-size: 14px;
+    text-align: justify;
+    line-height: 23px;
+    margin: 0;
+}

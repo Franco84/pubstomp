@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import ServiceBoxes from './ServiceBoxes'
+
 
 class App extends Component {
   render() {
+
     return (
-      <div>
-      <p>hi!</p>
-      </div>
+      <ServiceBoxes />
     );
   }
 }
