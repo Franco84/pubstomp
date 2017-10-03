@@ -5,17 +5,24 @@ import {Grid, Row, Col} from 'react-bootstrap'
 
 
 class App extends Component {
+
+  renderLogo() {
+    return  (
+      <Grid>
+        <Row>
+          <Col xs={6} xsOffset={3}>
+            <img alt="PubStomp Main Logo" className="img-responsive" src={pubstomp} />
+          </Col>
+        </Row>
+      </Grid>
+    )
+  }
+
   render() {
 
     return (
       <div>
-        <Grid>
-          <Row>
-            <Col xs={6} xsOffset={3}>
-              <img className="img-responsive" src={pubstomp} />
-            </Col>
-          </Row>
-        </Grid>
+        {this.renderLogo()}
         <ServiceBoxes />
       </div>
     );

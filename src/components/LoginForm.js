@@ -27,12 +27,10 @@ class LoginForm extends Component {
 
   onSubmit(values) {
     this.props.login(values)
-    this.props.history.push('/')
   }
 
   render() {
-    const {handleSubmit, pristine, submitting, reset} = this.props
-
+    const {error, handleSubmit, pristine, submitting, reset} = this.props
     return (
       <div>
       <form>
@@ -48,6 +46,7 @@ class LoginForm extends Component {
           type="password"
           component={this.renderField}
         />
+        {error && <strong>{error}</strong>}
         <Button onClick={handleSubmit(this.onSubmit.bind(this))} disabled={pristine || submitting} type="submit" bsStyle="primary" bsSize="xsmall">Submit</Button>
       </form>
     </div>

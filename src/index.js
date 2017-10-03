@@ -8,9 +8,9 @@ import Navigation from './components/Navigation'
 import App from './components/App';
 import Signup from './components/Signup'
 import reducers from './reducers';
-import createHistory from 'history/createBrowserHistory'
+import history from './components/History'
 
-const history = createHistory()
+
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
 ReactDOM.render(
