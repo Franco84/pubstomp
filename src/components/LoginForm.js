@@ -26,7 +26,7 @@ class LoginForm extends Component {
   }
 
   onSubmit(values) {
-    this.props.login(values)
+    this.props.login(values, this.props.navObj)
   }
 
   render() {

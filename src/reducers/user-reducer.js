@@ -5,7 +5,6 @@ export default (state=[], action) => {
     case SIGNUP:
       return action.payload
     case LOGIN:
-    debugger
       return action.payload
     case LOGOUT:
       return action.payload

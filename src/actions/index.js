@@ -14,11 +14,13 @@ export const CREATE_PROFILE = 'createProfile'
 export const UPDATE_PROFILE = 'updateProfile'
 export const DELETE_PROFILE = 'deleteProfile'
 
-export function login(values) {
+export function login(values, navObj) {
+  debugger
   const response = axios.post('/login', values)
   .then((user) => {
     sessionStorage.setItem('JWT', user.data.token)
     axios.defaults.headers.common['JWT'] = user.data.token
+    navObj.setState({ menuOpen: false, loggedIn: !!sessionStorage.JWT})
     history.push('/')
     return user
   })
@@ -45,8 +47,9 @@ export function signup(values) {
   }
 
 
-export function logout() {
+export function logout(value) {
   sessionStorage.removeItem('JWT')
+  value.setState({ menuOpen: false, loggedIn: !!sessionStorage.JWT})
   history.push('/')
   return {
     type: LOGOUT,
