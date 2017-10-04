@@ -1,13 +1,36 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux'
+import {connect} from 'react-redux'
 import {Navbar, NavDropdown, Nav, NavItem, MenuItem} from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 import LoginForm from './LoginForm'
+import {logout} from '../actions/index'
 
 class Navigation extends Component {
 
   constructor(props) {
     super(props)
     this.state = { menuOpen: false }
+    this.handleLogout = this.handleLogout.bind(this)
+
+  }
+
+  handleLogout() {
+    this.props.logout()
+    this.dropdownToggle(false)
+  }
+
+
+  registration() {
+    if(!!sessionStorage.JWT) {
+        return (
+          <Link to="/" onClick={this.handleLogout} className="clean-link">Logout</Link>
+          )
+      } else {
+        return (
+          <Link to="/signup" className="clean-link">Register</Link>
+          )
+      }
   }
 
   dropdownToggle(newValue){
@@ -42,7 +65,7 @@ class Navigation extends Component {
                 <LoginForm history={this.props.history} />
               </MenuItem>
             </NavDropdown>
-            <NavItem eventKey={5}><Link to="/signup" className="clean-link">Register</Link></NavItem>
+            <NavItem eventKey={5}>{this.registration()}</NavItem>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -50,4 +73,8 @@ class Navigation extends Component {
   }
 }
 
-export default Navigation;
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({logout: logout}, dispatch)
+}
+
+export default connect(null, mapDispatchToProps)(Navigation)
