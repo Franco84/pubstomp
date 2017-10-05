@@ -1,13 +1,18 @@
 import {LOGIN, SIGNUP, LOGOUT} from '../actions/index'
 
-export default (state=[], action) => {
+const initialState = {
+  loggedIn: false
+}
+
+export default (state = initialState, action) => {
   switch (action.type) {
     case SIGNUP:
       return action.payload
     case LOGIN:
-      return action.payload
+    debugger
+      return Object.assign({}, state, { loggedIn: true})
     case LOGOUT:
-      return action.payload
+      return Object.assign({}, state, { loggedIn: false})
     default:
       return state
   }

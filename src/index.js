@@ -7,6 +7,7 @@ import {Route, Router, Switch} from 'react-router-dom'
 import Navigation from './components/Navigation'
 import App from './components/App';
 import Signup from './components/Signup'
+import Profile from './components/Profile'
 import reducers from './reducers';
 import history from './components/History'
 
@@ -21,6 +22,7 @@ ReactDOM.render(
         <Switch>
           <Route exact path="/" component={App} />
           <Route path="/signup" component={Signup} />
+          <Route path="/profile" component={Profile} />
         </Switch>
       </div>
     </Router>

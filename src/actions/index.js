@@ -15,13 +15,10 @@ export const UPDATE_PROFILE = 'updateProfile'
 export const DELETE_PROFILE = 'deleteProfile'
 
 export function login(values, navObj) {
-  debugger
   const response = axios.post('/login', values)
   .then((user) => {
     sessionStorage.setItem('JWT', user.data.token)
     axios.defaults.headers.common['JWT'] = user.data.token
-    navObj.setState({ menuOpen: false, loggedIn: !!sessionStorage.JWT})
-    history.push('/')
     return user
   })
   .catch((error) => {
@@ -47,10 +44,8 @@ export function signup(values) {
   }
 
 
-export function logout(value) {
+export function logout() {
   sessionStorage.removeItem('JWT')
-  value.setState({ menuOpen: false, loggedIn: !!sessionStorage.JWT})
-  history.push('/')
   return {
     type: LOGOUT,
     payload: []
@@ -59,40 +54,44 @@ export function logout(value) {
 
 export function getProfile() {
   const response = axios.get('/profiles').then((profile) => {
-    return profile.data
+    return profile.data[0]
   })
   return {
-    type: 'FETCH_PROFILE',
+    type: GET_PROFILE,
     payload: response
   }
 }
 
 export function createProfile(profile) {
-  const response = axios.post('/profiles', {profile}).then((profile) => {
+  const response = axios.post('/profiles', profile).then((profile) => {
+    history.push('/profile')
     return profile.data
   })
   return {
-    type: 'CREATE_PROFILE',
+    type: CREATE_PROFILE,
     payload: response
   }
 }
 
-export function updateProfile(profile) {
-  const response = axios.patch(`/profiles/${profile.id}`, {profile}).then((profileData) => {
-    return profileData.data
+export function updateProfile(profile, id) {
+  const response = axios.patch(`/profiles/${id}`, profile).then((profile) => {
+    history.push('/profile')
+    return profile.data
   })
   return {
-    type: 'UPDATE_PROFILE',
+    type: UPDATE_PROFILE,
     payload: response
   }
 }
 
 export function deleteProfile(profile) {
-  const response = axios.delete(`/profiles/${profile.id}`, {profile}).then((profile) => {
+  debugger
+  const response = axios.delete(`/profiles/${profile.id}`, profile).then((profile) => {
+    history.push('/profile')
     return profile.data
   })
   return {
-    type: 'DELETE_PROFILE',
+    type: DELETE_PROFILE,
     payload: response
   }
 }

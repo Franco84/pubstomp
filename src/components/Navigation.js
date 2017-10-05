@@ -4,18 +4,21 @@ import {connect} from 'react-redux'
 import {Navbar, NavDropdown, Nav, NavItem, MenuItem} from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 import LoginForm from './LoginForm'
-import {logout} from '../actions/index'
+import {logout, getProfile} from '../actions'
+import history from '../components/History'
 
 class Navigation extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { menuOpen: false, loggedIn: !!sessionStorage.JWT}
+    this.state = { menuOpen: false}
     this.handleLogout = this.handleLogout.bind(this)
   }
 
   handleLogout() {
-    this.props.logout(this)
+    this.props.logout()
+    this.setState({ menuOpen: false})
+    history.push('/')
   }
 
   name() {
@@ -24,9 +27,8 @@ class Navigation extends Component {
         <LoginForm navObj={this} history={this.props.history} />
       </MenuItem>
     </NavDropdown>)
-    const Name = (<NavItem>Welcome</NavItem>)
-    if(this.state.loggedIn) {
-      return Name
+    if(this.props.currentUser.loggedIn) {
+      return (<NavItem><Link to='/profile' className="clean-link">Welcome, {this.props.profile.display_name}</Link></NavItem>)
     } else {
       return LoginButton
     }
@@ -35,7 +37,7 @@ class Navigation extends Component {
   registration() {
     const LogoutButton = <Link to="/" onClick={this.handleLogout.bind(this)} className="clean-link">Logout</Link>
     const RegisterButton = <Link to="/signup" className="clean-link">Register</Link>
-    if(this.state.loggedIn) {
+    if(this.props.currentUser.loggedIn) {
       return LogoutButton
     } else {
       return RegisterButton
@@ -78,8 +80,15 @@ class Navigation extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({logout: logout}, dispatch)
+function mapStateToProps(state){
+  return {
+    profile: state.profile,
+    currentUser: state.currentUser
+  }
 }
 
-export default connect(null, mapDispatchToProps)(Navigation)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({logout: logout, getProfile: getProfile}, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation)
