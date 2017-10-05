@@ -29,6 +29,11 @@ box-shadow:none !important;
   justify-content: center !important;
 }
 
+.time-label {
+  font-size: 10px;
+  font-weight: normal;
+}
+
 /*.flex-div {
   display: inline-block !important;
 }*/

@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import {Field, reduxForm} from 'redux-form'
 import {Button} from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { signup } from '../actions'
+import { createProfile } from '../actions'
 
-class SignupForm extends Component {
+class ProfileForm extends Component {
 
   renderField(field) {
     const { meta: {touched, error} } = field
     const className = `form-group ${touched && error ? 'has-danger' : ''}`
-
     return (
       <div className={className}>
         <input
@@ -26,7 +25,7 @@ class SignupForm extends Component {
   }
 
   onSubmit(values) {
-    this.props.signup(values)
+    this.props.createProfile(values)
   }
 
   render() {
@@ -35,21 +34,21 @@ class SignupForm extends Component {
     return (
       <form>
         <Field
-          placeholder=" E-mail"
-          name="email"
+          placeholder=" GamerTag/Preferred Name"
+          name="display_name"
           type="text"
           component={this.renderField}
         />
         <Field
-          placeholder=" Password"
-          name="password"
-          type="password"
+          placeholder=" First Name"
+          name="first_name"
+          type="text"
           component={this.renderField}
         />
         <Field
-          placeholder=" Confirm Password"
-          name="password_confirmation"
-          type="password"
+          placeholder=" Last Name"
+          name="last_name"
+          type="text"
           component={this.renderField}
         />
 
@@ -58,31 +57,28 @@ class SignupForm extends Component {
           <Button className="margin-button" type="button" disabled={pristine || submitting} bsSize="small" onClick={reset}>Clear</Button>
         </div>
       </form>
-
     );
   }
 }
 
 function validate(values) {
   const errors = {}
-  if (!values.name) {
-    errors.name = "Enter Name"
+  if (!values.display_name) {
+    errors.display_name = "Enter Display Name"
   }
-  if (!values.email) {
-    errors.email = "Enter E-mail"
+  if (!values.first_name) {
+    errors.first_name = "Enter First Name"
   }
-  if (!values.password) {
-    errors.password = "Enter Password"
-  }
-  if (values.password !== values.password_confirmation) {
-    errors.password_confirmation = "Passwords do not match"
+  if (!values.last_name) {
+    errors.last_name = "Enter Last Name"
   }
   return errors
 }
 
 export default reduxForm({
   validate,
-  form: 'SignupForm'
+  form: 'ProfileForm',
+   enableReinitialize : true
 })(
-  connect(null,{signup})(SignupForm)
+  connect(null,{createProfile})(ProfileForm)
 );
