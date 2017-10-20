@@ -3,7 +3,9 @@ import ServiceBoxes from './ServiceBoxes'
 import pubstomp from '../img/pubstomp.jpg'
 import {Grid, Row, Col} from 'react-bootstrap'
 
-class App extends Component {
+
+class Welcome extends Component {
+
   renderLogo() {
     return  (
       <Grid>
@@ -17,14 +19,14 @@ class App extends Component {
   }
 
   render() {
+
     return (
       <div>
         {this.renderLogo()}
         <ServiceBoxes />
       </div>
-    )
+    );
   }
 }
 
-
-  export default App;
+export default Welcome;

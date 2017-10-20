@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import { reducer as reducerForm } from 'redux-form';
-import userReducer from './user-reducer'
+import authReducer from './auth_reducer'
 import profileReducer from './profile-reducer'
 
 const rootReducer = combineReducers({
   form: reducerForm,
-  currentUser: userReducer,
+  auth: authReducer,
   profile: profileReducer,
   state: (state = {}) => state
 });

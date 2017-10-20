@@ -1,9 +1,13 @@
 import axios from 'axios';
-import history from '../components/History'
-import { SubmissionError } from 'redux-form'
+import history from '../components/History';
+import {
+  AUTH_USER,
+  UNAUTH_USER,
+  AUTH_ERROR
+} from './types';
 
 axios.defaults.baseURL = 'http://localhost:8080/api/v1'
-axios.defaults.headers.common['JWT'] = sessionStorage.getItem('JWT')
+axios.defaults.headers.common['token'] = localStorage.getItem('token')
 
 export const LOGIN = 'login'
 export const SIGNUP = 'signup'
@@ -14,42 +18,43 @@ export const CREATE_PROFILE = 'createProfile'
 export const UPDATE_PROFILE = 'updateProfile'
 export const DELETE_PROFILE = 'deleteProfile'
 
-export function login(values, navObj) {
-  const response = axios.post('/login', values)
-  .then((user) => {
-    sessionStorage.setItem('JWT', user.data.token)
-    axios.defaults.headers.common['JWT'] = user.data.token
-    return user
-  })
-  .catch((error) => {
-      throw new SubmissionError('Login failed!')
-  })
+export function authError(error) {
   return {
-      type: LOGIN,
-      payload: response
-    }
+    type: AUTH_ERROR,
+    payload: error
+  };
+}
+
+export function login(values) {
+  return function(dispatch) {
+    axios.post('/login', values)
+      .then(response => {
+        dispatch({ type: AUTH_USER });
+        localStorage.setItem('token', response.data.token);
+        history.push('/profile');
+      })
+      .catch(() => {
+        dispatch(authError('Incorrect Login Info'));
+      });
   }
+}
 
 export function signup(values) {
-  const response = axios.post('/signup', values).then((user) => {
-    sessionStorage.setItem('JWT', user.data.JWT)
-    axios.defaults.headers.common['JWT'] = user.data.JWT
-    history.push('/profile')
-    return user
-    })
-  return {
-      type: SIGNUP,
-      payload: response
-    }
+  return function(dispatch) {
+    axios.post('/signup', values)
+      .then(response => {
+        dispatch({ type: AUTH_USER });
+        localStorage.setItem('token', response.data.token);
+        history.push('/profile');
+      })
+      .catch(response => dispatch(authError(response.data.error)));
   }
-
+}
 
 export function logout() {
-  sessionStorage.removeItem('JWT')
-  return {
-    type: LOGOUT,
-    payload: []
-  }
+    localStorage.removeItem('token');
+    history.push('/');
+    return { type: UNAUTH_USER };
 }
 
 export function getProfile() {
