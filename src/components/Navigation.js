@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import LoginForm from './LoginForm'
 import {logout, getProfile} from '../actions'
 import history from '../components/History'
+import pubstomp_2 from '../img/pubstomp_2.png'
 
 class Navigation extends Component {
 
@@ -61,7 +62,7 @@ class Navigation extends Component {
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-            <span><Link to='/' className="clean-link">PubStomp</Link></span>
+            <span><Link to='/' className="clean-link">  <img alt="PubStomp Secondary Logo" className="secondary-logo" src={pubstomp_2} /></Link></span>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>

@@ -4,6 +4,16 @@ body {
   font-family: sans-serif;
 }
 
+.secondary-logo {
+    max-width: 24px;
+    height: auto;
+}
+
+.navbar-default {
+  border-color: #fff !important;
+  background-color: #fff !important;
+}
+
 input, textarea {
 outline: none;
 box-shadow:none !important;
