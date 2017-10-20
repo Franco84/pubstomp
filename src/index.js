@@ -2,27 +2,35 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import ReduxPromise from 'redux-promise';
-import {Route, Router, Switch} from 'react-router-dom'
+import {Route, Switch, Router, Redirect} from 'react-router-dom';
+import reduxThunk from 'redux-thunk';
+import history from './components/History'
+
 import Navigation from './components/Navigation'
 import App from './components/App';
 import Signup from './components/Signup'
 import Profile from './components/Profile'
 import reducers from './reducers';
-import history from './components/History'
+import RequireAuth from './components/auth/require_auth';
+import { AUTH_USER } from './actions/types';
 
-
-const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
+const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
+const store = createStoreWithMiddleware(reducers);
+const token = localStorage.getItem('token');
+if (token) {
+  store.dispatch({ type: AUTH_USER });
+}
 
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
+  <Provider store={store}>
     <Router history={history} >
       <div>
         <Navigation history={history} />
         <Switch>
           <Route exact path="/" component={App} />
           <Route path="/signup" component={Signup} />
-          <Route path="/profile" component={Profile} />
+          <Route path="/profile" component={RequireAuth(Profile)} />
+          <Route path="*" render={() => <Redirect to="/" />} />
         </Switch>
       </div>
     </Router>

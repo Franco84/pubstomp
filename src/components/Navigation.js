@@ -18,16 +18,16 @@ class Navigation extends Component {
   handleLogout() {
     this.props.logout()
     this.setState({ menuOpen: false})
-    history.push('/')
   }
 
   name() {
+    debugger
     const LoginButton = (<NavDropdown title="Login" className="no-border" id="basic-nav-dropdown" open={this.state.menuOpen} onToggle={val => this.dropdownToggle(val)}>
       <MenuItem onClick={() => this.menuItemClickedThatShouldntCloseDropdown()} className="default-cursor no-hover" key={4}>
         <LoginForm navObj={this} history={this.props.history} />
       </MenuItem>
     </NavDropdown>)
-    if(this.props.currentUser.loggedIn) {
+    if(this.props.auth.authenticated) {
       return (<NavItem><Link to='/profile' className="clean-link">Welcome, {this.props.profile.display_name}</Link></NavItem>)
     } else {
       return LoginButton
@@ -37,7 +37,7 @@ class Navigation extends Component {
   registration() {
     const LogoutButton = <Link to="/" onClick={this.handleLogout.bind(this)} className="clean-link">Logout</Link>
     const RegisterButton = <Link to="/signup" className="clean-link">Register</Link>
-    if(this.props.currentUser.loggedIn) {
+    if(this.props.auth.authenticated) {
       return LogoutButton
     } else {
       return RegisterButton
@@ -83,7 +83,7 @@ class Navigation extends Component {
 function mapStateToProps(state){
   return {
     profile: state.profile,
-    currentUser: state.currentUser
+    auth: state.auth
   }
 }
 
