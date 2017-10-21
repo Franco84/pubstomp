@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import GameSearch from './GameSearch'
 import { Row, Col } from 'react-bootstrap'
 import {Card, CardActions, CardMedia} from 'material-ui/Card';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -12,7 +13,9 @@ class GamesForm extends Component {
     super(props);
     this.state = {
       elementsArr: [],
-      selectedGames: {}
+      selectedGames: {},
+      noGames: false,
+      query: 'https://api.twitch.tv/kraken/games/top?limit=20&client_id=5tomyl16m18fgl444stt7mqf5np03x'
     }
   }
 
@@ -30,7 +33,14 @@ class GamesForm extends Component {
     }
   }
 
-  getGamesList() {
+  changeQuery(newQuery) {
+    this.setState({
+          elementsArr: [],
+          selectedGames: {},
+          query: newQuery})
+  }
+
+  getGamesList(query) {
     var elements = []
     const instance = axios.create({
       transformRequest: [(data, headers) => {
@@ -38,20 +48,30 @@ class GamesForm extends Component {
       return data
       }]
     })
-    instance.get('https://api.twitch.tv/kraken/games/top?limit=20&client_id=5tomyl16m18fgl444stt7mqf5np03x')
+    instance.get(query)
         .then( response => {
-          let gamesList = response.data.top
-          for( let i = 0; i < response.data.top.length; i++) {
-            elements.push([gamesList[i].game.name,gamesList[i].game.box.medium, gamesList[i].game._id])
-            }
-            this.setState({elementsArr: elements})
-          })
+          if(response.data.top) {
+            let gamesList = response.data.top
+            for( let i = 0; i < response.data.top.length; i++) {
+                elements.push([gamesList[i].game.name,gamesList[i].game.box.medium, gamesList[i].game._id])
+              }
+                this.setState({elementsArr: elements})
+            } else if (response.data.games.length === 0) {
+                this.setState({noGames: true})
+            } else if (response.data.games) {
+                let gamesList = response.data.games
+                  for( let i = 0; i < response.data.games.length; i++) {
+                    elements.push([gamesList[i].name,gamesList[i].box.medium, gamesList[i]._id])
+                  }
+                  this.setState({elementsArr: elements})
+            } 
+        })
         .catch( err => console.error( err.message ) );
     }
 
     printGamesList() {
-      if(this.state.elementsArr.length === 0){
-        this.getGamesList()
+      if(this.state.elementsArr.length === 0 && this.state.noGames === false){
+        this.getGamesList(this.state.query)
       }
     }
 
@@ -100,11 +120,11 @@ class GamesForm extends Component {
   render() {
     return (
       <div>
-        <p>Select Your Games!</p>
           <Row className="feed">
           <Col xs={10} sm={10} md={10} lg={10} xsOffset={1} smOffset={1} mdOffset={1} lgOffset={1}>
           {this.state.elementsArr.length === 0 ? this.spinner() : null}
           {this.state.elementsArr.length === 0  ? this.printGamesList() : null}
+          <GameSearch changeQuery={this.changeQuery.bind(this)} />
           {this.gamesRows()}
           </Col>
           </Row>
