@@ -80,7 +80,7 @@ export function createProfile(values) {
     axios.post('/profiles', values)
       .then(response => {
         dispatch({ type: CREATE_PROFILE, payload:response  })
-        history.push('/profile')
+        history.push('/')
       })
       .catch();
   }
@@ -91,7 +91,7 @@ export function updateProfile(values, id) {
     axios.patch(`/profiles/${id}`, values)
       .then(response => {
         dispatch({ type: UPDATE_PROFILE, payload:response })
-        history.push('/profile')
+        history.push('/')
       })
       .catch();
   }

@@ -28,7 +28,7 @@ class Navigation extends Component {
       </MenuItem>
     </NavDropdown>)
     if(this.props.auth.authenticated) {
-      return (<NavItem><Link to='/profile' className="clean-link">Welcome, {this.props.profile.display_name}</Link></NavItem>)
+      return (<NavItem><Link to='/' className="clean-link">Welcome, {this.props.profile.display_name}</Link></NavItem>)
     } else {
       return LoginButton
     }
