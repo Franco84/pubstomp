@@ -7,7 +7,6 @@ import {
 } from './types';
 
 axios.defaults.baseURL = 'http://localhost:8080/api/v1'
-axios.defaults.headers.common['token'] = localStorage.getItem('token')
 
 export const LOGIN = 'login'
 export const SIGNUP = 'signup'
@@ -32,7 +31,7 @@ export function login(values) {
       .then(response => {
         dispatch({ type: AUTH_USER });
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('id', response.data.id);
+        axios.defaults.headers.common['token'] = localStorage.getItem('token')
         history.push('/');
       })
       .catch(() => {
@@ -47,7 +46,7 @@ export function signup(values) {
       .then(response => {
         dispatch({ type: AUTH_USER });
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('id', response.data.id);
+        axios.defaults.headers.common['token'] = localStorage.getItem('token')
         history.push('/profile');
       })
       .catch(response => dispatch(authError(response.data.error)));
@@ -56,7 +55,7 @@ export function signup(values) {
 
 export function logout() {
     localStorage.removeItem('token')
-    localStorage.removeItem('id')
+    delete axios.defaults.headers.common['token']
     history.push('/')
     return { type: UNAUTH_USER }
 }
@@ -65,9 +64,9 @@ export function profileLogout() {
     return { type: PROFILE_LOGOUT }
 }
 
-export function getProfile(id) {
+export function getProfile() {
   return function(dispatch) {
-    axios.get(`/profiles/${id}`)
+    axios.get('/profiles/1')
       .then(response => {
         dispatch({ type: GET_PROFILE, payload:response });
       })
@@ -98,7 +97,6 @@ export function updateProfile(values, id) {
 }
 
 export function deleteProfile(profile) {
-  debugger
   const response = axios.delete(`/profiles/${profile.id}`, profile).then((profile) => {
     history.push('/profile')
     return profile.data
