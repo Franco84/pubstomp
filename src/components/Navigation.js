@@ -4,8 +4,7 @@ import {connect} from 'react-redux'
 import {Navbar, NavDropdown, Nav, NavItem, MenuItem} from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 import LoginForm from './LoginForm'
-import {logout, getProfile} from '../actions'
-import history from '../components/History'
+import {logout, getProfile, profileLogout} from '../actions'
 import pubstomp_2 from '../img/pubstomp_2.png'
 
 class Navigation extends Component {
@@ -17,19 +16,19 @@ class Navigation extends Component {
   }
 
   handleLogout() {
+    this.props.profileLogout()
     this.props.logout()
     this.setState({ menuOpen: false})
   }
 
   name() {
-    debugger
     const LoginButton = (<NavDropdown title="Login" className="no-border" id="basic-nav-dropdown" open={this.state.menuOpen} onToggle={val => this.dropdownToggle(val)}>
       <MenuItem onClick={() => this.menuItemClickedThatShouldntCloseDropdown()} className="default-cursor no-hover" key={4}>
         <LoginForm navObj={this} history={this.props.history} />
       </MenuItem>
     </NavDropdown>)
     if(this.props.auth.authenticated) {
-      return (<NavItem><Link to='/profile' className="clean-link">Welcome, {this.props.profile.display_name}</Link></NavItem>)
+      return (<NavItem><Link to='/' className="clean-link">Welcome, {this.props.profile.display_name}</Link></NavItem>)
     } else {
       return LoginButton
     }
@@ -89,7 +88,7 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({logout: logout, getProfile: getProfile}, dispatch)
+  return bindActionCreators({logout: logout, getProfile: getProfile, profileLogout: profileLogout}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation)

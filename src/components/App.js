@@ -1,30 +1,32 @@
-import React, { Component } from 'react';
-import ServiceBoxes from './ServiceBoxes'
-import pubstomp from '../img/pubstomp.jpg'
-import {Grid, Row, Col} from 'react-bootstrap'
+import React, { Component } from 'react'
+import {connect} from 'react-redux'
+import UserPage from './UserPage'
+import LandingPage from './LandingPage'
 
 class App extends Component {
-  renderLogo() {
-    return  (
-      <Grid>
-        <Row>
-          <Col xs={6} xsOffset={3}>
-            <img alt="PubStomp Main Logo" className="img-responsive" src={pubstomp} />
-          </Col>
-        </Row>
-      </Grid>
-    )
+
+  renderPage() {
+    if (this.props.auth.authenticated) {
+      return <UserPage />
+    } else {
+      return <LandingPage />
+    }
   }
 
   render() {
     return (
       <div>
-        {this.renderLogo()}
-        <ServiceBoxes />
+        {this.renderPage()}
       </div>
     )
   }
 }
 
+function mapStateToProps(state){
+  return {
+    auth: state.auth
+  }
+}
 
-  export default App;
+
+export default connect(mapStateToProps)(App)

@@ -17,6 +17,7 @@ export const GET_PROFILE = 'getProfile'
 export const CREATE_PROFILE = 'createProfile'
 export const UPDATE_PROFILE = 'updateProfile'
 export const DELETE_PROFILE = 'deleteProfile'
+export const PROFILE_LOGOUT = 'profileLogout'
 
 export function authError(error) {
   return {
@@ -31,7 +32,8 @@ export function login(values) {
       .then(response => {
         dispatch({ type: AUTH_USER });
         localStorage.setItem('token', response.data.token);
-        history.push('/profile');
+        localStorage.setItem('id', response.data.id);
+        history.push('/');
       })
       .catch(() => {
         dispatch(authError('Incorrect Login Info'));
@@ -45,6 +47,7 @@ export function signup(values) {
       .then(response => {
         dispatch({ type: AUTH_USER });
         localStorage.setItem('token', response.data.token);
+        localStorage.setItem('id', response.data.id);
         history.push('/profile');
       })
       .catch(response => dispatch(authError(response.data.error)));
@@ -52,40 +55,45 @@ export function signup(values) {
 }
 
 export function logout() {
-    localStorage.removeItem('token');
-    history.push('/');
-    return { type: UNAUTH_USER };
+    localStorage.removeItem('token')
+    localStorage.removeItem('id')
+    history.push('/')
+    return { type: UNAUTH_USER }
 }
 
-export function getProfile() {
-  const response = axios.get('/profiles').then((profile) => {
-    return profile.data[0]
-  })
-  return {
-    type: GET_PROFILE,
-    payload: response
+export function profileLogout() {
+    return { type: PROFILE_LOGOUT }
+}
+
+export function getProfile(id) {
+  return function(dispatch) {
+    axios.get(`/profiles/${id}`)
+      .then(response => {
+        dispatch({ type: GET_PROFILE, payload:response });
+      })
+      .catch();
   }
 }
 
-export function createProfile(profile) {
-  const response = axios.post('/profiles', profile).then((profile) => {
-    history.push('/profile')
-    return profile.data
-  })
-  return {
-    type: CREATE_PROFILE,
-    payload: response
+export function createProfile(values) {
+  return function(dispatch) {
+    axios.post('/profiles', values)
+      .then(response => {
+        dispatch({ type: CREATE_PROFILE, payload:response  })
+        history.push('/')
+      })
+      .catch();
   }
 }
 
-export function updateProfile(profile, id) {
-  const response = axios.patch(`/profiles/${id}`, profile).then((profile) => {
-    history.push('/profile')
-    return profile.data
-  })
-  return {
-    type: UPDATE_PROFILE,
-    payload: response
+export function updateProfile(values, id) {
+  return function(dispatch) {
+    axios.patch(`/profiles/${id}`, values)
+      .then(response => {
+        dispatch({ type: UPDATE_PROFILE, payload:response })
+        history.push('/')
+      })
+      .catch();
   }
 }
 

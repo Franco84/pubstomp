@@ -44,9 +44,26 @@ box-shadow:none !important;
   font-weight: normal;
 }
 
+.pad-top {
+  padding-top: 20px;
+}
 /*.flex-div {
   display: inline-block !important;
 }*/
+
+.gamelist  {
+  justify-content: center;
+  padding: 10px 10px;
+}
+
+.gamelist-checkbox  {
+  display: inline-block;
+}
+
+.feed {
+  text-align: center;
+  margin-right: 0px !important;
+}
 
 .clean-link, .clean-link:hover, .clean-link:visited, .clean-link:focus, .clean-link:active  {
   text-decoration: none;
