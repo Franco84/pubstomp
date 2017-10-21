@@ -75,7 +75,7 @@ class UpdateProfileForm extends Component {
   }
 
   onSubmit(values) {
-    this.props.updateProfile(values, localStorage.getItem('id'))
+    this.props.updateProfile(values, this.props.profile.id)
   }
 
   render() {

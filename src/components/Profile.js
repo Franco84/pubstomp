@@ -9,8 +9,9 @@ import {Grid, Row, Col} from 'react-bootstrap'
 class Profile extends Component {
 
   componentDidMount(){
-    if(localStorage.getItem('id')) {
-      this.props.getProfile(localStorage.getItem('id'))
+    debugger
+    if(localStorage.getItem('token')) {
+      this.props.getProfile()
     }
   }
 
