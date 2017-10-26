@@ -31,7 +31,7 @@ render() {
   return (
     <div>
       <div>
-        <Col xs={8} xsOffset={2}>
+        <Col xs={12} sm={8} smOffset={2}>
           <Tabs activeKey={this.state.key} onSelect={this.handleSelect.bind(this)} id="controlled-tab">
             <Tab eventKey={1} title="Profile"><div className="pad-top"></div></Tab>
             <Tab eventKey={2} title="Games"><div className="pad-top"></div></Tab>
