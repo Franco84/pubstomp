@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import {Field, reduxForm} from 'redux-form'
 import {Button} from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { signup } from '../actions'
+import { login } from '../../actions'
 
-class SignupForm extends Component {
+class LoginForm extends Component {
 
   renderField(field) {
     const { meta: {touched, error} } = field
@@ -26,13 +26,13 @@ class SignupForm extends Component {
   }
 
   onSubmit(values) {
-    this.props.signup(values)
+    this.props.login(values, this.props.navObj)
   }
 
   render() {
-    const {handleSubmit, pristine, reset, submitting} = this.props
-
+    const {error, handleSubmit, pristine, submitting, reset} = this.props
     return (
+      <div>
       <form>
         <Field
           placeholder=" E-mail"
@@ -46,18 +46,10 @@ class SignupForm extends Component {
           type="password"
           component={this.renderField}
         />
-        <Field
-          placeholder=" Confirm Password"
-          name="password_confirmation"
-          type="password"
-          component={this.renderField}
-        />
-
-        <div className="flex-div">
-          <Button className="margin-button" onClick={handleSubmit(this.onSubmit.bind(this))} disabled={pristine || submitting} type="submit" bsStyle="primary" bsSize="small">Submit</Button>
-          <Button className="margin-button" type="button" disabled={pristine || submitting} bsSize="small" onClick={reset}>Clear</Button>
-        </div>
+        {error && <strong>{error}</strong>}
+        <Button onClick={handleSubmit(this.onSubmit.bind(this))} disabled={pristine || submitting} type="submit" bsStyle="primary" bsSize="xsmall">Submit</Button>
       </form>
+    </div>
 
     );
   }
@@ -65,24 +57,18 @@ class SignupForm extends Component {
 
 function validate(values) {
   const errors = {}
-  if (!values.name) {
-    errors.name = "Enter Name"
-  }
   if (!values.email) {
     errors.email = "Enter E-mail"
   }
   if (!values.password) {
     errors.password = "Enter Password"
   }
-  if (values.password !== values.password_confirmation) {
-    errors.password_confirmation = "Passwords do not match"
-  }
   return errors
 }
 
 export default reduxForm({
   validate,
-  form: 'SignupForm'
+  form: 'LoginForm'
 })(
-  connect(null,{signup})(SignupForm)
+  connect(null,{login})(LoginForm)
 );

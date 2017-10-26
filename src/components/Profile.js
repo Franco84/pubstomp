@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import { bindActionCreators } from 'redux'
 import {connect} from 'react-redux'
-import ProfileForm from './ProfileForm'
-import UpdateProfileForm from './UpdateProfileForm'
+import ProfileForm from './Forms/ProfileForm'
+import UpdateProfileForm from './Forms/UpdateProfileForm'
 import { getProfile } from '../actions'
 import {Grid, Row, Col} from 'react-bootstrap'
 

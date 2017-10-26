@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Grid, Row, Col} from 'react-bootstrap'
-import SignupForm from './SignupForm'
+import SignupForm from './Forms/SignupForm'
 
 
 class Signup extends Component {
