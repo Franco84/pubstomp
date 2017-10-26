@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Tabs, Tab, Col} from 'react-bootstrap'
 import Profile from './Profile'
-import GamesForm from './GamesForm'
+import GamesList from './GamesList'
 
 
 class SettingsTabs extends Component {
@@ -21,7 +21,7 @@ renderForm(key) {
   if(this.state.key === 1) {
     return <Profile />
   } else if(this.state.key === 2) {
-    return <GamesForm />
+    return <GamesList />
   } else if(this.state.key === 3) {
     return "Tab 3 Content"
   }

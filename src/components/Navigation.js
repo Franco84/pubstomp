@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import {connect} from 'react-redux'
 import {Navbar, NavDropdown, Nav, NavItem, MenuItem} from 'react-bootstrap';
 import { Link } from 'react-router-dom'
-import LoginForm from './LoginForm'
+import LoginForm from './Forms/LoginForm'
 import {logout, getProfile, profileLogout} from '../actions'
 import pubstomp_2 from '../img/pubstomp_2.png'
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import GameSearch from './GameSearch'
+import GameSearch from './Forms/GameSearch'
 import { Row, Col } from 'react-bootstrap'
 import {Card, CardActions, CardMedia} from 'material-ui/Card';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -8,7 +8,7 @@ import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Checkbox from 'material-ui/Checkbox';
 
-class GamesForm extends Component {
+class GamesList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -64,7 +64,7 @@ class GamesForm extends Component {
                     elements.push([gamesList[i].name,gamesList[i].box.medium, gamesList[i]._id])
                   }
                   this.setState({elementsArr: elements})
-            } 
+            }
         })
         .catch( err => console.error( err.message ) );
     }
@@ -133,4 +133,4 @@ class GamesForm extends Component {
   }
 }
 
-export default GamesForm
+export default GamesList

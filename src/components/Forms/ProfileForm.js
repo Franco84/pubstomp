@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Field, reduxForm} from 'redux-form'
 import {Button} from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { createProfile } from '../actions'
+import { createProfile } from '../../actions'
 
 class ProfileForm extends Component {
 
