@@ -15,12 +15,18 @@ class UpdateProfileForm extends Component {
   }
 
   calculateTimes(time, difference) {
+    let newTime = 0
       if ((time - difference) < 0) {
-        return (time - difference) + 24
+        newTime = (time - difference) + 24
     } else if ((time - difference) > 24) {
-        return (time - difference) - 24
+        newTime = (time - difference) - 24
     } else {
-        return time - difference
+        newTime = time - difference
+    }
+    if (newTime < 10) {
+      return "0" + newTime.toString()
+    } else {
+      return newTime
     }
   }
 
@@ -44,12 +50,13 @@ class UpdateProfileForm extends Component {
     let groups = this.getTime()
     return groups.map((group, index) => {
         return  (
-          <Col xs={1}>
+          <Col xs={3}>
             <label className="time-label" htmlFor={group}>{group}</label>
             <Field
               name={`time${index}`}
               type="checkbox"
               component="input"
+              className="time-field"
             />
           </Col>
       )
@@ -104,7 +111,7 @@ class UpdateProfileForm extends Component {
 
         <Row>
           <p> Play Times:</p>
-          <Col xs={2}></Col>
+          <Col xs={12}></Col>
 
           {this.timeFields()}
         </Row>

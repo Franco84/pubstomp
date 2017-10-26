@@ -44,6 +44,10 @@ box-shadow:none !important;
   font-weight: normal;
 }
 
+.time-field {
+  float: right !important;
+}
+
 .pad-top {
   padding-top: 20px;
 }
