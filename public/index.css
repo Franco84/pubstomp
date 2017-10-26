@@ -64,6 +64,20 @@ box-shadow:none !important;
   display: inline-block;
 }
 
+.search-width {
+  max-width: 200px;
+}
+
+.input-xs {
+  height: 24px !important;
+  padding: 2px 5px !important;
+  font-size: 12px !important;
+}
+
+.glyph-height {
+    font-size: 9px !important;
+}
+
 .feed {
   text-align: center;
   margin-right: 0px !important;

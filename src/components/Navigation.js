@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {Navbar, NavDropdown, Nav, NavItem, MenuItem} from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 import LoginForm from './Forms/LoginForm'
+import UserSearch from './Forms/UserSearch'
 import {logout, getProfile, profileLogout} from '../actions'
 import pubstomp_2 from '../img/pubstomp_2.png'
 
@@ -67,8 +68,8 @@ class Navigation extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <NavItem eventKey={1}>Games</NavItem>
-            <NavItem eventKey={2}>Friends</NavItem>
+            <NavItem eventKey={1}>News</NavItem>
+            <NavItem eventKey={2}><UserSearch /></NavItem>
           </Nav>
           <Nav pullRight>
             {this.name()}
