@@ -91,7 +91,7 @@ class GamesList extends Component {
       let rows = this.state.elementsArr.map((currElement, index) => {
         return (
           <div key={index}>
-          <Col className="gamelist" sm={2} smOffset={this.getOffSet(index)}>
+          <Col className="gamelist" xs={3} sm={2} smOffset={this.getOffSet(index)}>
             <Card onClick={() => {
               this.onGameChange(this.state.elementsArr[index][2])
             }}>
@@ -121,12 +121,12 @@ class GamesList extends Component {
     return (
       <div>
           <Row className="feed">
-          <Col xs={10} sm={10} md={10} lg={10} xsOffset={1} smOffset={1} mdOffset={1} lgOffset={1}>
+          <Col xs={12} sm={10} xsOffset={0} smOffset={1}>
+          <GameSearch changeQuery={this.changeQuery.bind(this)} />
           {this.state.elementsArr.length === 0 ? this.spinner() : null}
           {this.state.elementsArr.length === 0  ? this.printGamesList() : null}
-          <GameSearch changeQuery={this.changeQuery.bind(this)} />
-          {this.gamesRows()}
           </Col>
+          {this.gamesRows()}
           </Row>
       </div>
     )

@@ -67,6 +67,7 @@ box-shadow:none !important;
 .feed {
   text-align: center;
   margin-right: 0px !important;
+  margin-left: 0px !important;
 }
 
 .clean-link, .clean-link:hover, .clean-link:visited, .clean-link:focus, .clean-link:active  {
