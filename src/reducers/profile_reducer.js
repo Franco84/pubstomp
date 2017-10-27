@@ -1,4 +1,4 @@
-import {GET_PROFILE, CREATE_PROFILE, UPDATE_PROFILE, DELETE_PROFILE, PROFILE_LOGOUT} from '../actions/index'
+import {GET_PROFILE, CREATE_PROFILE, UPDATE_PROFILE, DELETE_PROFILE, PROFILE_LOGOUT} from '../actions/types'
 
 export default (state=[], action) => {
   switch (action.type) {

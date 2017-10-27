@@ -1,23 +1,11 @@
 import axios from 'axios';
 import history from '../components/History';
-import {
-  AUTH_USER,
-  UNAUTH_USER,
-  AUTH_ERROR
-} from './types';
+import {AUTH_USER, UNAUTH_USER, AUTH_ERROR} from './types';
+import {GET_PROFILE, CREATE_PROFILE, UPDATE_PROFILE, DELETE_PROFILE, PROFILE_LOGOUT} from './types';
+import {GET_GAMES, UPDATE_GAMES} from './types';
 
 axios.defaults.baseURL = 'http://localhost:8080/api/v1'
 axios.defaults.headers.common['token'] = localStorage.getItem('token')
-
-export const LOGIN = 'login'
-export const SIGNUP = 'signup'
-export const LOGOUT = 'logout'
-
-export const GET_PROFILE = 'getProfile'
-export const CREATE_PROFILE = 'createProfile'
-export const UPDATE_PROFILE = 'updateProfile'
-export const DELETE_PROFILE = 'deleteProfile'
-export const PROFILE_LOGOUT = 'profileLogout'
 
 export function authError(error) {
   return {
@@ -105,5 +93,27 @@ export function deleteProfile(profile) {
   return {
     type: DELETE_PROFILE,
     payload: response
+  }
+}
+
+
+export function getGames() {
+  return function(dispatch) {
+    axios.get('/games/1')
+      .then(response => {
+        dispatch({ type: GET_GAMES, payload:response });
+      })
+      .catch();
+  }
+}
+
+export function updateGames(values, id) {
+  debugger
+  return function(dispatch) {
+    axios.patch(`/games/${id}`, values)
+      .then(response => {
+        dispatch({ type: UPDATE_GAMES, payload:response })
+      })
+      .catch();
   }
 }
