@@ -36,7 +36,7 @@ class Profile extends Component {
     return (
       <Grid>
         <Row>
-          <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
+          <Col xs={10} xsOffset={1} sm={8} smOffset={2}>
             <div>
               {this.showForm()}
             </div>

@@ -50,7 +50,7 @@ class UpdateProfileForm extends Component {
     let groups = this.getTime()
     return groups.map((group, index) => {
         return  (
-          <Col xs={3}>
+          <Col xs={6} md={3}>
             <label className="time-label" htmlFor={group}>{group}</label>
             <Field
               name={`time${index}`}
@@ -90,33 +90,43 @@ class UpdateProfileForm extends Component {
 
     return (
       <form>
-        <Field
-          placeholder={`Preferred Name / Gamertag: ${this.props.profile.display_name}`}
-          name="display_name"
-          type="text"
-          component={this.renderField}
-        />
-        <Field
-          placeholder={`First Name: ${this.props.profile.first_name}`}
-          name="first_name"
-          type="text"
-          component={this.renderField}
-        />
-        <Field
-          placeholder={`Last Name: ${this.props.profile.last_name}`}
-          name="last_name"
-          type="text"
-          component={this.renderField}
-        />
+        <Row>
+          <Col xs={12} sm={2}>
+            <p> Personal Info:</p>
+          </Col>
+          <Col xs={12} sm={10}>
+            <Field
+              placeholder={`Preferred Name / Gamertag: ${this.props.profile.display_name}`}
+              name="display_name"
+              type="text"
+              component={this.renderField}
+            />
+            <Field
+              placeholder={`First Name: ${this.props.profile.first_name}`}
+              name="first_name"
+              type="text"
+              component={this.renderField}
+            />
+            <Field
+              placeholder={`Last Name: ${this.props.profile.last_name}`}
+              name="last_name"
+              type="text"
+              component={this.renderField}
+            />
+          </Col>
+        </Row>
 
         <Row>
-          <p> Play Times:</p>
-          <Col xs={12}></Col>
-
-          {this.timeFields()}
+          <Col xs={12} sm={2}>
+            <p> Play Times:</p>
+          </Col>
+          <Col xs={12} sm={10}>
+            {this.timeFields()}
+          </Col>
         </Row>
 
         <div className="flex-div">
+          <br />
           <Button className="margin-button" onClick={handleSubmit(this.onSubmit.bind(this))} disabled={pristine || submitting} type="submit" bsStyle="primary" bsSize="small">Update</Button>
           <Button className="margin-button" type="button" disabled={pristine || submitting} bsSize="small" onClick={reset}>Clear</Button>
         </div>
