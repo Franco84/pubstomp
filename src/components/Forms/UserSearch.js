@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {Field, reduxForm} from 'redux-form'
-import {FormGroup, InputGroup, FormControl, Glyphicon} from 'react-bootstrap'
 
 class UserSearch extends Component {
     renderField(field) {

@@ -30,7 +30,7 @@ class LoginForm extends Component {
   }
 
   render() {
-    const {error, handleSubmit, pristine, submitting, reset} = this.props
+    const {error, handleSubmit, pristine, submitting} = this.props
     return (
       <div>
       <form>
