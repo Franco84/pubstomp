@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import {connect} from 'react-redux'
 import axios from 'axios'
 import GameSearch from './Forms/GameSearch'
 import { Row, Col } from 'react-bootstrap'
+import {getGames, updateGames} from '../actions'
 import {Card, CardActions, CardMedia} from 'material-ui/Card';
 import CircularProgress from 'material-ui/CircularProgress';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
@@ -13,9 +16,15 @@ class GamesList extends Component {
     super(props);
     this.state = {
       elementsArr: [],
-      selectedGames: {},
+      selectedGames: props.selectedGames,
       noGames: false,
       query: 'https://api.twitch.tv/kraken/games/top?limit=20&client_id=5tomyl16m18fgl444stt7mqf5np03x'
+    }
+  }
+
+  componentDidMount(){
+    if(localStorage.getItem('token')) {
+      this.props.getGames()
     }
   }
 
@@ -27,9 +36,12 @@ class GamesList extends Component {
             selectedGames[key]= this.state.selectedGames[key]
           }
         }
-      this.setState({selectedGames: {selectedGames}})
+        this.props.updateGames(selectedGames)
+      // this.setState({selectedGames: selectedGames})
     } else {
-      this.setState({selectedGames: {...this.state.selectedGames, [id.toString()]: id} })
+      // this.setState({selectedGames: {...this.state.selectedGames, [id.toString()]: id} })
+        const newGameSet = {...this.state.selectedGames, [id.toString()]: id}
+        this.props.updateGames(newGameSet)
     }
   }
 
@@ -133,4 +145,14 @@ class GamesList extends Component {
   }
 }
 
-export default GamesList
+function mapStateToProps(state){
+  return {
+    selectedGames: state.games
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({getGames: getGames, updateGames: updateGames}, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GamesList)
