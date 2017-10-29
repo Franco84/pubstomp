@@ -85,6 +85,16 @@ export function updateProfile(values, id) {
   }
 }
 
+export function uploadAvatar(avatar, id) {
+  return function(dispatch) {
+    axios.patch(`/profiles/${id}`, avatar)
+      .then(response => {
+        dispatch({ type: UPDATE_PROFILE, payload:response })
+      })
+      .catch();
+  }
+}
+
 export function deleteProfile(profile) {
   const response = axios.delete(`/profiles/${profile.id}`, profile).then((profile) => {
     history.push('/profile')
