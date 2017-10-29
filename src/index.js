@@ -12,6 +12,7 @@ import Navigation from './components/Navigation'
 import App from './components/App';
 import Signup from './components/Signup'
 import Profile from './components/Profile'
+import UploadAvatar from './components/UploadAvatar'
 import reducers from './reducers';
 import RequireAuth from './components/auth/require_auth';
 import { AUTH_USER } from './actions/types';
@@ -32,6 +33,7 @@ ReactDOM.render(
           <Navigation history={history} />
           <Switch>
             <Route exact path="/" component={App} />
+            <Route path="/upload" component={UploadAvatar} />
             <Route path="/signup" component={Signup} />
             <Route path="/profile" component={RequireAuth(Profile)} />
             <Route path="*" render={() => <Redirect to="/" />} />
