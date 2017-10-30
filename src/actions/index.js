@@ -109,7 +109,7 @@ export function deleteProfile(profile) {
 
 export function getGames(value) {
   return function(dispatch) {
-    axios.get(`/games/${value}`)
+    axios.post('/games/search/', value)
       .then(response => {
         dispatch({ type: GET_GAMES, payload:response });
       })
