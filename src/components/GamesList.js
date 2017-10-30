@@ -22,12 +22,6 @@ class GamesList extends Component {
     }
   }
 
-  componentDidMount(){
-    if(localStorage.getItem('token')) {
-      this.props.getGames(this.state.query)
-    }
-  }
-
    onGameChange( id ) {
     if (id.toString() in (this.state.selectedGames)) {
       let selectedGames = {}
@@ -60,7 +54,7 @@ class GamesList extends Component {
       return data
       }]
     })
-    instance.defaults.baseURL = 'http://localhost:8080/api/v1/games/'
+    instance.defaults.baseURL = 'http://localhost:8080/api/v1/games/search/'
     instance.get(query)
         .then( response => {
           if(response.data.length > 0) {
