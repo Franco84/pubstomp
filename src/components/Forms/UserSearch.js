@@ -8,7 +8,7 @@ class UserSearch extends Component {
         return (
           <div className={className}>
             <div className="input-group">
-              <span className="input-group-addon left-round glyph-height"><i class="glyphicon glyphicon-search"></i></span>
+              <span className="input-group-addon left-round glyph-height"><i className="glyphicon glyphicon-search"></i></span>
               <input
                 className="form-control right-round input-xs"
                 placeholder={field.placeholder}

@@ -18,13 +18,13 @@ class GamesList extends Component {
       elementsArr: [],
       selectedGames: props.selectedGames,
       noGames: false,
-      query: 'https://api.twitch.tv/kraken/games/top?limit=20&client_id=5tomyl16m18fgl444stt7mqf5np03x'
+      query: ' '
     }
   }
 
   componentDidMount(){
     if(localStorage.getItem('token')) {
-      this.props.getGames()
+      this.props.getGames(this.state.query)
     }
   }
 
@@ -45,37 +45,37 @@ class GamesList extends Component {
     }
   }
 
-  changeQuery(newQuery) {
+  changeQuery(value) {
     this.setState({
           elementsArr: [],
           selectedGames: {},
-          query: newQuery})
+          query: value})
   }
 
   getGamesList(query) {
-    var elements = []
+    let elements = {}
     const instance = axios.create({
       transformRequest: [(data, headers) => {
       delete headers.common.token
       return data
       }]
     })
+    instance.defaults.baseURL = 'http://localhost:8080/api/v1/games/'
     instance.get(query)
         .then( response => {
-          if(response.data.top) {
-            let gamesList = response.data.top
-            for( let i = 0; i < response.data.top.length; i++) {
-                elements.push([gamesList[i].game.name,gamesList[i].game.box.medium, gamesList[i].game._id])
+          if(response.data.length > 0) {
+            for(let i = 0; i < response.data.length; i++) {
+              if(response.data[i].cover) {
+                elements[i] = {}
+                elements[i].name = response.data[i].name
+                elements[i].url = `http:${response.data[i].cover.url}`
+                elements[i].id = response.data[i].id
+                elements[i].url = elements[i].url.replace("thumb", "cover_uniform")
+                }
               }
                 this.setState({elementsArr: elements})
-            } else if (response.data.games.length === 0) {
+            } else if (response.data.length === 0) {
                 this.setState({noGames: true})
-            } else if (response.data.games) {
-                let gamesList = response.data.games
-                  for( let i = 0; i < response.data.games.length; i++) {
-                    elements.push([gamesList[i].name,gamesList[i].box.medium, gamesList[i]._id])
-                  }
-                  this.setState({elementsArr: elements})
             }
         })
         .catch( err => console.error( err.message ) );
@@ -100,21 +100,21 @@ class GamesList extends Component {
       }
 
     gamesRows() {
-      let rows = this.state.elementsArr.map((currElement, index) => {
+      let rows = Object.keys(this.state.elementsArr).map((currElement, index) => {
         return (
           <div key={index}>
           <Col className="gamelist" xs={3} sm={2} smOffset={this.getOffSet(index)}>
             <Card onClick={() => {
-              this.onGameChange(this.state.elementsArr[index][2])
+              this.onGameChange(this.state.elementsArr[currElement].id)
             }}>
               <CardMedia>
-                <img src={this.state.elementsArr[index][1]} alt='hi'/>
+                <img className="card-pic" src={this.state.elementsArr[currElement].url} alt='hi'/>
               </CardMedia>
               <CardActions>
                 <div className="gamelist-checkbox" >
                   <Checkbox style={{ display: "flex"}}
-                    checked={this.state.elementsArr[index][2] in this.state.selectedGames ? true : false}
-                    id={this.state.elementsArr[index][2]}
+                    checked={this.state.elementsArr[currElement].id in this.state.selectedGames ? true : false}
+                    id={this.state.elementsArr[currElement].id}
                     disableTouchRipple
                     disableFocusRipple
                     checkedIcon={<ActionFavorite />}

@@ -19,9 +19,8 @@ class GameSearch extends Component {
     )
   }
 
-  onSubmit(values) {
-    const newQuery = `https://api.twitch.tv/kraken/search/games?query=${values.game_search}&type=suggest&client_id=5tomyl16m18fgl444stt7mqf5np03x`
-    this.props.changeQuery(newQuery)
+  onSubmit(value) {
+    this.props.changeQuery(value.game_search)
   }
 
   render() {

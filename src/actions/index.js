@@ -107,9 +107,9 @@ export function deleteProfile(profile) {
 }
 
 
-export function getGames() {
+export function getGames(value) {
   return function(dispatch) {
-    axios.get('/games/1')
+    axios.get(`/games/${value}`)
       .then(response => {
         dispatch({ type: GET_GAMES, payload:response });
       })

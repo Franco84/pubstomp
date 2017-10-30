@@ -9,7 +9,7 @@ class LoginForm extends Component {
   renderField(field) {
     const { meta: {touched, error} } = field
     const className = `form-group ${touched && error ? 'has-danger' : ''}`
-
+    debugger
     return (
       <div className={className}>
         <input
@@ -47,6 +47,7 @@ class LoginForm extends Component {
           component={this.renderField}
         />
         {error && <strong>{error}</strong>}
+          {this.props.auth.error}
         <Button onClick={handleSubmit(this.onSubmit.bind(this))} disabled={pristine || submitting} type="submit" bsStyle="primary" bsSize="xsmall">Submit</Button>
       </form>
     </div>
@@ -66,9 +67,15 @@ function validate(values) {
   return errors
 }
 
+function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  }
+}
+
 export default reduxForm({
   validate,
   form: 'LoginForm'
 })(
-  connect(null,{login})(LoginForm)
+  connect(mapStateToProps,{login})(LoginForm)
 );
