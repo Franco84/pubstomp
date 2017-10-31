@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import axios from 'axios'
 import GameSearch from './Forms/GameSearch'
 import { Row, Col } from 'react-bootstrap'
-import {getGames, updateGames} from '../actions'
+import {getGames, favoriteGame, getFavoriteGames} from '../actions'
 import {Card, CardActions, CardMedia} from 'material-ui/Card';
 import CircularProgress from 'material-ui/CircularProgress';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
@@ -16,33 +16,25 @@ class GamesList extends Component {
     super(props);
     this.state = {
       elementsArr: [],
-      selectedGames: props.selectedGames,
+      favoriteGames: [],
       noGames: false,
       query: ' '
     }
   }
 
-   onGameChange( id ) {
-    if (id.toString() in (this.state.selectedGames)) {
-      let selectedGames = {}
-      for(let key in this.state.selectedGames) {
-          if(key !== id.toString()) {
-            selectedGames[key]= this.state.selectedGames[key]
-          }
-        }
-        this.props.updateGames(selectedGames)
-      // this.setState({selectedGames: selectedGames})
-    } else {
-      // this.setState({selectedGames: {...this.state.selectedGames, [id.toString()]: id} })
-        const newGameSet = {...this.state.selectedGames, [id.toString()]: id}
-        this.props.updateGames(newGameSet)
-    }
+  componentDidMount() {
+    this.props.getFavoriteGames()
+  }
+
+  onGameChange( game ) {
+     const gameInfo = {game_id: game.id, cover_url: game.url, name: game.name}
+      this.props.favoriteGame(gameInfo)
   }
 
   changeQuery(value) {
     this.setState({
           elementsArr: [],
-          selectedGames: {},
+          favoriteGames: [],
           query: value})
   }
 
@@ -52,7 +44,7 @@ class GamesList extends Component {
       transformRequest: [(data, headers) => {
       delete headers.common.token
       return data
-      }]
+    }]
     })
     instance.defaults.baseURL = 'http://localhost:8080/api/v1/games/search/'
     instance.get(query)
@@ -99,7 +91,7 @@ class GamesList extends Component {
           <div key={index}>
           <Col className="gamelist" xs={3} sm={2} smOffset={this.getOffSet(index)}>
             <Card onClick={() => {
-              this.onGameChange(this.state.elementsArr[currElement].id)
+              this.onGameChange(this.state.elementsArr[currElement])
             }}>
               <CardMedia>
                 <img className="card-pic" src={this.state.elementsArr[currElement].url} alt='hi'/>
@@ -107,7 +99,7 @@ class GamesList extends Component {
               <CardActions>
                 <div className="gamelist-checkbox" >
                   <Checkbox style={{ display: "flex"}}
-                    checked={this.state.elementsArr[currElement].id in this.state.selectedGames ? true : false}
+                    checked={this.props.favoriteGames.includes(this.state.elementsArr[currElement].id)}
                     id={this.state.elementsArr[currElement].id}
                     disableTouchRipple
                     disableFocusRipple
@@ -119,7 +111,7 @@ class GamesList extends Component {
             </Card>
           </Col>
         </div>
-    )})
+    )}, this)
     return rows
   }
 
@@ -141,12 +133,12 @@ class GamesList extends Component {
 
 function mapStateToProps(state){
   return {
-    selectedGames: state.games
+    favoriteGames: state.games
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({getGames: getGames, updateGames: updateGames}, dispatch)
+  return bindActionCreators({getGames: getGames, favoriteGame: favoriteGame, getFavoriteGames: getFavoriteGames}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(GamesList)

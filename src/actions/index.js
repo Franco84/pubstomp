@@ -2,7 +2,7 @@ import axios from 'axios';
 import history from '../components/History';
 import {AUTH_USER, UNAUTH_USER, AUTH_ERROR} from './types';
 import {GET_PROFILE, CREATE_PROFILE, UPDATE_PROFILE, DELETE_PROFILE, PROFILE_LOGOUT} from './types';
-import {GET_GAMES, UPDATE_GAMES} from './types';
+import {GET_GAMES, FAVORITE_GAME, GET_FAVORITE_GAMES} from './types';
 
 axios.defaults.baseURL = 'http://localhost:8080/api/v1'
 axios.defaults.headers.common['token'] = localStorage.getItem('token')
@@ -117,12 +117,21 @@ export function getGames(value) {
   }
 }
 
-export function updateGames(values, id) {
-  debugger
+export function getFavoriteGames() {
   return function(dispatch) {
-    axios.patch(`/games/${id}`, values)
+    axios.get('/user_games/my_list')
       .then(response => {
-        dispatch({ type: UPDATE_GAMES, payload:response })
+        dispatch({ type: GET_FAVORITE_GAMES, payload:response });
+      })
+      .catch();
+  }
+}
+
+export function favoriteGame(gameInfo) {
+  return function(dispatch) {
+    axios.post(`/user_games_toggle`, gameInfo)
+      .then(response => {
+        dispatch({ type: FAVORITE_GAME, payload:response })
       })
       .catch();
   }
